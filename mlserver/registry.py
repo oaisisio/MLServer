@@ -177,6 +177,7 @@ class SingleModelRegistry:
         self._register(new_model)
 
         if old_model == self.default:
+            await self._unload_model(old_model)
             self._clear_default()
 
         logger.info(f"Reloaded model '{new_model.name}' succesfully.")
@@ -213,6 +214,9 @@ class SingleModelRegistry:
 
         if model == self.default:
             self._clear_default()
+
+        # Execute custom model unloading logic.
+        await model.unload()
 
     def _find_model(self, version: Optional[str] = None) -> Optional[MLModel]:
         if version:

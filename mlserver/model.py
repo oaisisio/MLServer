@@ -169,5 +169,9 @@ class MLModel:
         self.ready = True
         return self.ready
 
+    async def unload(self) -> bool:
+        self.ready = False
+        return self.ready
+
     async def predict(self, payload: InferenceRequest) -> InferenceResponse:
         raise NotImplementedError("predict() method not implemented")
